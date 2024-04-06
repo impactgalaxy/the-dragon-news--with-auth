@@ -1,14 +1,26 @@
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub, FaInstagram, FaTwitter } from "react-icons/fa";
 import { TfiFacebook } from "react-icons/tfi";
+import { useContext } from "react";
+import { AuthContext } from "../../../AuthProvider/AuthProvider";
 
 export default function RightPart() {
+    const { loginWithGoogle } = useContext(AuthContext);
+
+    const googleLogin = () => {
+        loginWithGoogle().then(result => {
+            console.log(result.user);
+        }).catch(err => {
+            console.error(err);
+        })
+
+    }
     return (
         <div className="p-2">
             <div>
                 <h1 className="text-xl font-semibold ">Login with</h1>
                 <div className="py-4 space-y-3">
-                    <button className="btn btn-outline w-full text-blue-700"><FcGoogle></FcGoogle>Login With Google</button>
+                    <button className="btn btn-outline w-full text-blue-700" onClick={googleLogin}><FcGoogle></FcGoogle>Login With Google</button>
                     <button className="btn btn-outline w-full"><FaGithub></FaGithub>Login With Github</button>
                 </div>
             </div>

@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 
 export default function Navbar() {
-    const { currentUser } = useContext(AuthContext);
+    const { currentUser, logoutUser, toast } = useContext(AuthContext);
     const [theme, setTheme] = useState("light");
     const handleTheme = (e) => {
         const value = e.target.checked;
@@ -17,14 +17,25 @@ export default function Navbar() {
             setTheme("light");
         }
     }
+    const logOut = () => {
+        logoutUser().then(() => {
+            console.log("User log out successfully");
+        }).catch(err => {
+            console.error("Something wrong; cant log out try again", err);
+        })
+
+    }
     useEffect(() => {
         const getValue = JSON.parse(localStorage.getItem("theme"));
         if (getValue) {
             setTheme("synthwave");
         }
+        if (theme === "synthwave") {
+            toast.success("Theme updated to dark")
+        }
         document.querySelector("html").setAttribute("data-theme", theme);
 
-    }, [theme]);
+    }, [theme, toast]);
     const navLinks = (
         <>
             <li><Link to="/home">Home</Link></li>
@@ -65,13 +76,17 @@ export default function Navbar() {
 
                 </label>
                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                    <div className="w-10 rounded-full">
-                        {
-                            currentUser?.photoURL ? <img alt="Tailwind CSS Navbar component" src={currentUser.photoURL} /> : <img alt="Tailwind CSS Navbar component" src={userPhoto} />
-                        }
-                    </div>
+                    {
+                        currentUser && <div className="w-10 rounded-full">
+                            {
+                                currentUser?.photoURL ? <img alt="Tailwind CSS Navbar component" src={currentUser.photoURL} /> : <img alt="Tailwind CSS Navbar component" src={userPhoto} />
+                            }
+                        </div>
+                    }
                 </div>
-                <Link to="/user/login" className="btn font-semibold rounded-none border-none bg-[#403F3F] text-white">Login</Link>
+                {
+                    currentUser ? <button className="btn btn-outline" onClick={logOut}>Log out</button> : <Link to="/user/login" className="btn font-semibold rounded-none border-none bg-[#403F3F] text-white">Login</Link>
+                }
             </div>
         </div>
     )

@@ -1,11 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useContext } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 
 export default function Login() {
-    const { loginUser } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
+    console.log(location);
+    const { loginUser, toast } = useContext(AuthContext);
+    // const text =
+    //     navigation.state === "submitting"
+    //         ? "Saving..."
+    //         : navigation.state === "loading"
+    //             ? "Saved!"
+    //             : "Go";
     const handleLogin = (e) => {
+
         e.preventDefault();
         const form = new FormData(e.currentTarget);
 
@@ -13,8 +23,11 @@ export default function Login() {
         const password = form.get("password");
         loginUser(email, password).then((result) => {
             console.log(result.user);
+            navigate(location.state);
+            toast.success("Login successfully")
         }).catch(error => {
             console.error(error);
+            toast.error("Sorry! Please try again")
         })
     }
     return (
