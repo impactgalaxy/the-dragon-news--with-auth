@@ -34,11 +34,7 @@ export default function RootNews({ data }) {
     const [comment, setComment] = useState([]);
     useEffect(() => {
         const data = getValueFromLocalStore(_id);
-        data.map(value => {
-            console.log(value);
-            setComment(value)
-
-        });
+        setComment(data);
     }, []);
 
 
@@ -89,7 +85,7 @@ export default function RootNews({ data }) {
                     <input type="text" name="comment" onChange={getCommentFromUser} id="" className="input w-3/4 bg-slate-100 text-black" placeholder="comment" />
                     <button className="btn btn-accent btn-neutral absolute top-1/2 -translate-y-1/2 right-2" onClick={handleComment}>Comment</button>
                 </div>
-                <h1 className="text-2xl">{comment}</h1>
+                <h1 className="text-2xl">{comment.map((comt, i) => <h1 key={i}>{comt}</h1>)}</h1>
 
             </div>
         </div>)
