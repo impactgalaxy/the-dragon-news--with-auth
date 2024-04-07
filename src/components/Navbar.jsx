@@ -41,6 +41,7 @@ export default function Navbar() {
             <li><Link to="/home">Home</Link></li>
             <li><Link to="/about">About</Link></li>
             <li><Link to="/career">Career</Link></li>
+            <li><Link to="/contact">Contact Us</Link></li>
         </>
     )
     return (

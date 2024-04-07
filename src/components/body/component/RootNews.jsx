@@ -35,7 +35,7 @@ export default function RootNews({ data }) {
     useEffect(() => {
         const data = getValueFromLocalStore(_id);
         setComment(data);
-    }, []);
+    }, [_id]);
 
 
     return (
